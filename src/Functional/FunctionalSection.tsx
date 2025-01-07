@@ -70,14 +70,19 @@ export const FunctionalSection = ({
         </div>
       </div>
       <div className="content-container">
-        <FunctionalDogs
-          displayFavorites={displayFavorites}
-          displayUnfavorites={displayUnfavorites}
-          displayAll={displayAll}
-          allDogs={allDogs}
-          fetchAndSetAllDogs={fetchAndSetAllDogs}
-        />
-        {isCreateClicked && <FunctionalCreateDogForm />}
+        {(displayAll || displayFavorites || displayUnfavorites) && (
+          <FunctionalDogs
+            displayFavorites={displayFavorites}
+            displayUnfavorites={displayUnfavorites}
+            displayAll={displayAll}
+            allDogs={allDogs}
+            fetchAndSetAllDogs={fetchAndSetAllDogs}
+          />
+        )}
+
+        {isCreateClicked && (
+          <FunctionalCreateDogForm fetchAndSetAllDogs={fetchAndSetAllDogs} />
+        )}
       </div>
     </section>
   );

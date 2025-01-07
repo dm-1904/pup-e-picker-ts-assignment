@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { Requests } from "../api";
-import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
-import { FunctionalDogs } from "./FunctionalDogs";
 import { FunctionalSection } from "./FunctionalSection";
 import { Dog } from "../types";
 
@@ -30,11 +28,6 @@ export function FunctionalApp() {
       setIsUnfavClicked(false);
   };
 
-  // const handleUnClick = () => {
-  //   setIsUnfavClicked(false);
-  //   setIsFavClicked(false);
-  // };
-
   const fetchAndSetAllDogs = () => {
     return Requests.getAllDogs().then(setAllDogs);
   };
@@ -58,8 +51,7 @@ export function FunctionalApp() {
   const displayAll = !isFavClicked && !isUnfavClicked && !isCreateClicked;
   const favoritedCount = favoritedDogs.length;
   const unfavoritedCount = allDogs.length - favoritedCount;
-  // console.log("fav", isFavClicked);
-  // console.log("unfav", isUnfavClicked);
+
   return (
     <div
       className="App"
@@ -81,14 +73,6 @@ export function FunctionalApp() {
         displayAll={displayAll}
         allDogs={allDogs}
       />
-      {/* <FunctionalDogs
-        displayFavorites={displayFavorites}
-        displayUnfavorites={displayUnfavorites}
-        displayAll={displayAll}
-        allDogs={allDogs}
-        fetchAndSetAllDogs={fetchAndSetAllDogs}
-      /> */}
-      {/* {isCreateClicked && <FunctionalCreateDogForm />} */}
     </div>
   );
 }

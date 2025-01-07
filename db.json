@@ -11,7 +11,7 @@
       "name": "Shannon",
       "image": "/assets/cowardly.png",
       "description": "invite insistent brr truthfully athwart bah straddle assassination",
-      "isFavorite": true,
+      "isFavorite": false,
       "id": 6
     },
     {
@@ -104,6 +104,27 @@
       "description": "loosely at bossy surprisingly friendly for well-lit seldom",
       "isFavorite": false,
       "id": 19
+    },
+    {
+      "name": "adf",
+      "description": "asdfdas",
+      "image": "/assets/boxer.jpeg",
+      "isFavorite": false,
+      "id": 21
+    },
+    {
+      "name": "c",
+      "description": "dgdg",
+      "image": "/assets/blue-heeler.png",
+      "isFavorite": false,
+      "id": 22
+    },
+    {
+      "name": "Deezel",
+      "description": "The best dog EVER!!!!",
+      "image": "/assets/blue-heeler.png",
+      "isFavorite": true,
+      "id": 23
     }
   ]
 }
