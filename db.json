@@ -1,41 +1,6 @@
 {
   "dogs": [
     {
-      "name": "Nannie",
-      "image": "/assets/corgi.png",
-      "description": "inquisitively oof calm acupuncture whereas equatorial gosh effectuate",
-      "isFavorite": true,
-      "id": 0
-    },
-    {
-      "name": "Brycen",
-      "image": "/assets/chihuahua.avif",
-      "description": "bottleful after baste obliterate putrid",
-      "isFavorite": false,
-      "id": 1
-    },
-    {
-      "name": "Thurman",
-      "image": "/assets/boxer.png",
-      "description": "subtle though jade indeed before island aha",
-      "isFavorite": true,
-      "id": 2
-    },
-    {
-      "name": "Orrin",
-      "image": "/assets/chihuahua.avif",
-      "description": "provided after despite till watcher",
-      "isFavorite": true,
-      "id": 3
-    },
-    {
-      "name": "Lucie",
-      "image": "/assets/dalmation.png",
-      "description": "psst justly browsing all solid",
-      "isFavorite": false,
-      "id": 4
-    },
-    {
       "name": "Luella",
       "image": "/assets/blue-heeler.png",
       "description": "smoothly idolized naturally yum that till phew",
