@@ -1,26 +1,33 @@
 // you can use this type for react children if you so choose
-import { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
+import { FunctionalDogs } from "./FunctionalDogs";
 import { Dog } from "../types";
 
 export const FunctionalSection = ({
-  allDogs,
   handleFavClick,
   handleUnfavClick,
-  // handleUnClick,
   displayFavorites,
   displayUnfavorites,
   favoritedCount,
   unfavoritedCount,
+  handleCreateClick,
+  fetchAndSetAllDogs,
+  isCreateClicked,
+  displayAll,
+  allDogs,
 }: {
-  allDogs: Dog[];
   handleFavClick: () => void;
   handleUnfavClick: () => void;
-  // handleUnClick: () => void;
   displayFavorites: boolean;
   displayUnfavorites: boolean;
   favoritedCount: number;
   unfavoritedCount: number;
+  handleCreateClick: () => void;
+  fetchAndSetAllDogs: () => Promise<void>;
+  isCreateClicked: boolean;
+  displayAll: boolean;
+  allDogs: Dog[];
 }) => {
   return (
     <section id="main-section">
@@ -53,14 +60,25 @@ export const FunctionalSection = ({
             unfavorited ( {unfavoritedCount} )
           </div>
           <div
-            className={`selector`}
-            onClick={() => {}}
+            className={`selector ${isCreateClicked ? "active" : ""}`}
+            onClick={() => {
+              handleCreateClick();
+            }}
           >
             create dog
           </div>
         </div>
       </div>
-      <div className="content-container"></div>
+      <div className="content-container">
+        <FunctionalDogs
+          displayFavorites={displayFavorites}
+          displayUnfavorites={displayUnfavorites}
+          displayAll={displayAll}
+          allDogs={allDogs}
+          fetchAndSetAllDogs={fetchAndSetAllDogs}
+        />
+        {isCreateClicked && <FunctionalCreateDogForm />}
+      </div>
     </section>
   );
 };

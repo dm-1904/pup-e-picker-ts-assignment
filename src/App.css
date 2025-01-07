@@ -45,8 +45,22 @@ body {
   padding: 0px;
 }
 
+.form-box {
+  width: 80%;
+  background-color: black;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  flex: 23;
+  flex-grow: 23;
+  flex-shrink: 1;
+  flex-basis: 0%;
+  overflow-y: auto;
+}
+
 #create-dog-form {
   height: 500px;
+  width: 670px;
   color: white;
   font-size: 30px;
   padding: 40px;
@@ -147,6 +161,7 @@ body {
   justify-content: space-around;
   flex: 23;
   overflow-y: auto;
+  height: 0;
 }
 
 .dog-card {

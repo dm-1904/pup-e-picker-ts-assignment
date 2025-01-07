@@ -10,15 +10,24 @@ export function FunctionalApp() {
   const [favoritedDogs, setFavoritedDogs] = useState<Dog[]>([]);
   const [isFavClicked, setIsFavClicked] = useState<boolean>(false);
   const [isUnfavClicked, setIsUnfavClicked] = useState<boolean>(false);
+  const [isCreateClicked, setIsCreateClicked] = useState<boolean>(false);
 
   const handleFavClick = () => {
     isFavClicked ? setIsFavClicked(false) : setIsFavClicked(true),
-      setIsUnfavClicked(false);
+      setIsUnfavClicked(false),
+      setIsCreateClicked(false);
   };
 
   const handleUnfavClick = () => {
     isUnfavClicked ? setIsUnfavClicked(false) : setIsUnfavClicked(true),
-      setIsFavClicked(false);
+      setIsFavClicked(false),
+      setIsCreateClicked(false);
+  };
+
+  const handleCreateClick = () => {
+    isCreateClicked ? setIsCreateClicked(false) : setIsCreateClicked(true),
+      setIsFavClicked(false),
+      setIsUnfavClicked(false);
   };
 
   // const handleUnClick = () => {
@@ -43,9 +52,10 @@ export function FunctionalApp() {
     fetchAndSetFavoritedDogs();
   }, [allDogs]);
 
-  const displayFavorites = isFavClicked && !isUnfavClicked;
-  const displayUnfavorites = isUnfavClicked && !isFavClicked;
-  const displayAll = !isFavClicked && !isUnfavClicked;
+  const displayFavorites = isFavClicked && !isUnfavClicked && !isCreateClicked;
+  const displayUnfavorites =
+    isUnfavClicked && !isFavClicked && !isCreateClicked;
+  const displayAll = !isFavClicked && !isUnfavClicked && !isCreateClicked;
   const favoritedCount = favoritedDogs.length;
   const unfavoritedCount = allDogs.length - favoritedCount;
   // console.log("fav", isFavClicked);
@@ -59,23 +69,26 @@ export function FunctionalApp() {
         <h1>pup-e-picker (Functional)</h1>
       </header>
       <FunctionalSection
-        allDogs={allDogs}
         handleFavClick={handleFavClick}
         handleUnfavClick={handleUnfavClick}
-        // handleUnClick={handleUnClick}
         displayFavorites={displayFavorites}
         displayUnfavorites={displayUnfavorites}
         favoritedCount={favoritedCount}
         unfavoritedCount={unfavoritedCount}
+        handleCreateClick={handleCreateClick}
+        isCreateClicked={isCreateClicked}
+        fetchAndSetAllDogs={fetchAndSetAllDogs}
+        displayAll={displayAll}
+        allDogs={allDogs}
       />
-      <FunctionalDogs
+      {/* <FunctionalDogs
         displayFavorites={displayFavorites}
         displayUnfavorites={displayUnfavorites}
         displayAll={displayAll}
         allDogs={allDogs}
         fetchAndSetAllDogs={fetchAndSetAllDogs}
-      />
-      <FunctionalCreateDogForm />
+      /> */}
+      {/* {isCreateClicked && <FunctionalCreateDogForm />} */}
     </div>
   );
 }
