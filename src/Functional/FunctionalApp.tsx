@@ -63,6 +63,8 @@ export function FunctionalApp() {
         handleFavClick={handleFavClick}
         handleUnfavClick={handleUnfavClick}
         // handleUnClick={handleUnClick}
+        displayFavorites={displayFavorites}
+        displayUnfavorites={displayUnfavorites}
         favoritedCount={favoritedCount}
         unfavoritedCount={unfavoritedCount}
       />

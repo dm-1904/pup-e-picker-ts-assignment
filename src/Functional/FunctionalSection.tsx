@@ -8,6 +8,8 @@ export const FunctionalSection = ({
   handleFavClick,
   handleUnfavClick,
   // handleUnClick,
+  displayFavorites,
+  displayUnfavorites,
   favoritedCount,
   unfavoritedCount,
 }: {
@@ -15,6 +17,8 @@ export const FunctionalSection = ({
   handleFavClick: () => void;
   handleUnfavClick: () => void;
   // handleUnClick: () => void;
+  displayFavorites: boolean;
+  displayUnfavorites: boolean;
   favoritedCount: number;
   unfavoritedCount: number;
 }) => {
@@ -31,7 +35,7 @@ export const FunctionalSection = ({
         <div className="selectors">
           {/* This should display the favorited count */}
           <div
-            className={`selector active`}
+            className={`selector ${displayFavorites ? "active" : ""}`}
             onClick={() => {
               handleFavClick();
             }}
@@ -41,7 +45,7 @@ export const FunctionalSection = ({
 
           {/* This should display the unfavorited count */}
           <div
-            className={`selector`}
+            className={`selector ${displayUnfavorites ? "active" : ""}`}
             onClick={() => {
               handleUnfavClick();
             }}
