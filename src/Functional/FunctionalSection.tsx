@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
 import { FunctionalDogs } from "./FunctionalDogs";
 import { Dog } from "../types";
+import { useState } from "react";
 
 export const FunctionalSection = ({
   handleFavClick,
@@ -29,6 +30,8 @@ export const FunctionalSection = ({
   displayAll: boolean;
   allDogs: Dog[];
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   return (
     <section id="main-section">
       <div className="container-header">
@@ -77,11 +80,17 @@ export const FunctionalSection = ({
             displayAll={displayAll}
             allDogs={allDogs}
             fetchAndSetAllDogs={fetchAndSetAllDogs}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
           />
         )}
 
         {isCreateClicked && (
-          <FunctionalCreateDogForm fetchAndSetAllDogs={fetchAndSetAllDogs} />
+          <FunctionalCreateDogForm
+            fetchAndSetAllDogs={fetchAndSetAllDogs}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+          />
         )}
       </div>
     </section>

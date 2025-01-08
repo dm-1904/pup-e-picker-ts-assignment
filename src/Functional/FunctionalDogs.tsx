@@ -8,12 +8,16 @@ export const FunctionalDogs = ({
   displayAll,
   allDogs,
   fetchAndSetAllDogs,
+  isLoading,
+  setIsLoading,
 }: {
   displayFavorites: boolean;
   displayUnfavorites: boolean;
   displayAll: boolean;
   allDogs: Dog[];
   fetchAndSetAllDogs: () => Promise<void>;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
 }) => {
   const handleFavoriteClick = (dog: Dog) => {
     const updatedDog = { ...dog, isFavorite: !dog.isFavorite };
@@ -26,11 +30,14 @@ export const FunctionalDogs = ({
         <DogCard
           dog={dog}
           onTrashIconClick={() => {
-            Requests.deleteDog(dog.id).then(() => fetchAndSetAllDogs());
+            setIsLoading(true);
+            Requests.deleteDog(dog.id)
+              .then(() => fetchAndSetAllDogs())
+              .finally(() => setIsLoading(false));
           }}
           onHeartClick={() => handleFavoriteClick(dog)}
           onEmptyHeartClick={() => handleFavoriteClick(dog)}
-          isLoading={false}
+          isLoading={isLoading}
         />
       </div>
     ));

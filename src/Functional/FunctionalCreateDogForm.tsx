@@ -4,8 +4,12 @@ import { dogPictures } from "../dog-pictures";
 
 export const FunctionalCreateDogForm = ({
   fetchAndSetAllDogs,
+  isLoading,
+  setIsLoading,
 }: {
   fetchAndSetAllDogs: () => Promise<void>;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
 }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -13,18 +17,21 @@ export const FunctionalCreateDogForm = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     const newDog = {
       name,
       description,
       image: picture,
       isFavorite: false,
     };
-    Requests.postDog(newDog).then(() => {
-      fetchAndSetAllDogs();
-      setName("");
-      setDescription("");
-      setPicture(Object.values(dogPictures)[0]);
-    });
+    Requests.postDog(newDog)
+      .then(() => {
+        fetchAndSetAllDogs();
+        setName("");
+        setDescription("");
+        setPicture(Object.values(dogPictures)[0]);
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -38,7 +45,7 @@ export const FunctionalCreateDogForm = ({
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        disabled={false}
+        disabled={isLoading}
       />
       <label htmlFor="description">Dog Description</label>
       <textarea
@@ -47,7 +54,7 @@ export const FunctionalCreateDogForm = ({
         rows={10}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        disabled={false}
+        disabled={isLoading}
       ></textarea>
       <label htmlFor="picture">Select an Image</label>
       <select
@@ -64,7 +71,10 @@ export const FunctionalCreateDogForm = ({
           </option>
         ))}
       </select>
-      <input type="submit" />
+      <input
+        type="submit"
+        disabled={isLoading}
+      />
     </form>
   );
 };
