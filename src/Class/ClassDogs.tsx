@@ -1,92 +1,59 @@
 import { DogCard } from "../Shared/DogCard";
 import { Component } from "react";
-import { dogPictures } from "../dog-pictures";
+import { Dog } from "../types";
+import { Requests } from "../api";
 
-// Right now these dogs are constant, but in reality we should be getting these from our server
-export class ClassDogs extends Component {
+interface DogProps {
+  displayFavorites: boolean;
+  displayUnfavorites: boolean;
+  displayAll: boolean;
+  allDogs: Dog[];
+  fetchAndSetAllDogs: () => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
+}
+
+export class ClassDogs extends Component<DogProps> {
+  handleFavoriteClick = (dog: Dog) => {
+    const updatedDog = { ...dog, isFavorite: !dog.isFavorite };
+    Requests.updateDog(dog.id, updatedDog).then(() =>
+      this.props.fetchAndSetAllDogs()
+    );
+  };
+
+  renderDogCards = (dogs: Dog[]) => {
+    return dogs.map((dog) => (
+      <div key={dog.id}>
+        <DogCard
+          dog={dog}
+          onTrashIconClick={() => {
+            this.props.setIsLoading(true);
+            Requests.deleteDog(dog.id)
+              .then(() => this.props.fetchAndSetAllDogs())
+              .finally(() => this.props.setIsLoading(false));
+          }}
+          onHeartClick={() => this.handleFavoriteClick(dog)}
+          onEmptyHeartClick={() => this.handleFavoriteClick(dog)}
+          isLoading={this.props.isLoading}
+        />
+      </div>
+    ));
+  };
+
   render() {
     return (
       <>
-        <DogCard
-          dog={{
-            id: 1,
-            image: dogPictures.BlueHeeler,
-            description: "Example Description",
-            isFavorite: false,
-            name: "Cute Blue Heeler",
-          }}
-          key={1}
-          onTrashIconClick={() => {
-            alert("clicked trash");
-          }}
-          onHeartClick={() => {
-            alert("clicked heart");
-          }}
-          onEmptyHeartClick={() => {
-            alert("clicked empty heart");
-          }}
-          isLoading={false}
-        />
-        <DogCard
-          dog={{
-            id: 2,
-            image: dogPictures.Boxer,
-            description: "Example Description",
-            isFavorite: false,
-            name: "Cute Boxer",
-          }}
-          key={2}
-          onTrashIconClick={() => {
-            alert("clicked trash");
-          }}
-          onHeartClick={() => {
-            alert("clicked heart");
-          }}
-          onEmptyHeartClick={() => {
-            alert("clicked empty heart");
-          }}
-          isLoading={false}
-        />
-        <DogCard
-          dog={{
-            id: 3,
-            image: dogPictures.Chihuahua,
-            description: "Example Description",
-            isFavorite: false,
-            name: "Cute Chihuahua",
-          }}
-          key={3}
-          onTrashIconClick={() => {
-            alert("clicked trash");
-          }}
-          onHeartClick={() => {
-            alert("clicked heart");
-          }}
-          onEmptyHeartClick={() => {
-            alert("clicked empty heart");
-          }}
-          isLoading={false}
-        />
-        <DogCard
-          dog={{
-            id: 4,
-            image: dogPictures.Corgi,
-            description: "Example Description",
-            isFavorite: false,
-            name: "Cute Corgi",
-          }}
-          key={4}
-          onTrashIconClick={() => {
-            alert("clicked trash");
-          }}
-          onHeartClick={() => {
-            alert("clicked heart");
-          }}
-          onEmptyHeartClick={() => {
-            alert("clicked empty heart");
-          }}
-          isLoading={false}
-        />
+        <section className="dog-section">
+          {this.props.displayAll && this.renderDogCards(this.props.allDogs)}
+          {this.props.displayFavorites &&
+            this.renderDogCards(
+              this.props.allDogs.filter((dog) => dog.isFavorite)
+            )}
+          {this.props.displayUnfavorites &&
+            this.renderDogCards(
+              this.props.allDogs.filter((dog) => !dog.isFavorite)
+            )}
+        </section>
       </>
     );
   }
