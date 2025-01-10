@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Requests } from "../api";
 import { dogPictures } from "../dog-pictures";
+import { toast } from "react-hot-toast";
 
 export const FunctionalCreateDogForm = ({
   fetchAndSetAllDogs,
@@ -31,6 +32,7 @@ export const FunctionalCreateDogForm = ({
         setDescription("");
         setPicture(Object.values(dogPictures)[0]);
       })
+      .then(() => toast.success(`✅ ${name} has been added! 🐾`))
       .finally(() => setIsLoading(false));
   };
 

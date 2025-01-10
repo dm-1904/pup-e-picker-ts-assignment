@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { dogPictures } from "../dog-pictures";
 import { Requests } from "../api";
+import toast from "react-hot-toast";
 
 interface CreateDogProps {
   isLoading: boolean;
@@ -39,6 +40,7 @@ export class ClassCreateDogForm extends Component<CreateDogProps, State> {
           picture: Object.values(dogPictures)[0],
         });
       })
+      .then(() => toast.success(`✅ ${this.state.name} has been added! 🐾`))
       .finally(() => this.props.setIsLoading(false));
   };
 
