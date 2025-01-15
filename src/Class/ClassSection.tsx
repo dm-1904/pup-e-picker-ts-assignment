@@ -1,21 +1,15 @@
-// you can use `ReactNode` to add a type to the children prop
 import { Component } from "react";
 import { Link } from "react-router-dom";
-import { Dog } from "../types";
+import { Dog, TActiveTab } from "../types";
 import { ClassDogs } from "./ClassDogs";
 import { ClassCreateDogForm } from "./ClassCreateDogForm";
 
 interface Props {
-  handleFavClick: () => void;
-  handleUnfavClick: () => void;
-  handleCreateClick: () => void;
-  displayFavorites: boolean;
-  displayUnfavorites: boolean;
+  handleTabChange: (tabName: TActiveTab) => void;
+  activeTab: TActiveTab;
   favoritedCount: number;
   unfavoritedCount: number;
   fetchAndSetAllDogs: () => void;
-  isCreateClicked: boolean;
-  displayAll: boolean;
   allDogs: Dog[];
 }
 
@@ -24,78 +18,76 @@ interface State {
 }
 
 export class ClassSection extends Component<Props, State> {
+  state = {
+    isLoading: false,
+  };
+
   render() {
-    // eslint-disable-next-line react/no-direct-mutation-state
-    this.state = {
-      isLoading: false,
-    };
+    const {
+      activeTab,
+      handleTabChange,
+      favoritedCount,
+      unfavoritedCount,
+      allDogs,
+      fetchAndSetAllDogs,
+    } = this.props;
+    const displayFavorites = activeTab === "fav";
+    const displayUnfavorites = activeTab === "unfav";
+    const displayAll = activeTab === "none";
+
     return (
       <section id="main-section">
         <div className="container-header">
           <div className="container-label">Dogs: </div>
-
           <Link
             to={"/functional"}
             className="btn"
           >
             Change to Functional
           </Link>
-
           <div className="selectors">
-            {/* This should display the favorited count */}
             <div
-              className={`selector ${
-                this.props.displayFavorites ? "active" : ""
-              }`}
-              onClick={() => {
-                this.props.handleFavClick();
-              }}
+              className={`selector ${displayFavorites ? "active" : ""}`}
+              onClick={() => handleTabChange(displayFavorites ? "none" : "fav")}
             >
-              favorited ( {this.props.favoritedCount} )
-            </div>
-
-            {/* This should display the unfavorited count */}
-            <div
-              className={`selector ${
-                this.props.displayUnfavorites ? "active" : ""
-              }`}
-              onClick={() => {
-                this.props.handleUnfavClick();
-              }}
-            >
-              unfavorited ( {this.props.unfavoritedCount} )
+              favorited ({favoritedCount})
             </div>
             <div
-              className={`selector ${
-                this.props.isCreateClicked ? "active" : ""
-              }`}
-              onClick={() => {
-                this.props.handleCreateClick();
-              }}
+              className={`selector ${displayUnfavorites ? "active" : ""}`}
+              onClick={() =>
+                handleTabChange(displayUnfavorites ? "none" : "unfav")
+              }
+            >
+              unfavorited ({unfavoritedCount})
+            </div>
+            <div
+              className={`selector ${activeTab === "create" ? "active" : ""}`}
+              onClick={() =>
+                handleTabChange(activeTab === "create" ? "none" : "create")
+              }
             >
               create dog
             </div>
           </div>
         </div>
         <div className="content-container">
-          {(this.props.displayAll ||
-            this.props.displayFavorites ||
-            this.props.displayUnfavorites) && (
+          {(displayAll || displayFavorites || displayUnfavorites) && (
             <ClassDogs
-              displayFavorites={this.props.displayFavorites}
-              displayUnfavorites={this.props.displayUnfavorites}
-              displayAll={this.props.displayAll}
-              allDogs={this.props.allDogs}
-              fetchAndSetAllDogs={this.props.fetchAndSetAllDogs}
+              displayFavorites={displayFavorites}
+              displayUnfavorites={displayUnfavorites}
+              displayAll={displayAll}
+              allDogs={allDogs}
+              fetchAndSetAllDogs={fetchAndSetAllDogs}
               isLoading={this.state.isLoading}
               setIsLoading={(isLoading: boolean) =>
                 this.setState({ isLoading })
               }
             />
           )}
-          {this.props.isCreateClicked && (
+          {activeTab === "create" && (
             <ClassCreateDogForm
-              fetchAndSetAllDogs={this.props.fetchAndSetAllDogs}
+              handleTabChange={handleTabChange}
+              fetchAndSetAllDogs={fetchAndSetAllDogs}
               isLoading={this.state.isLoading}
               setIsLoading={(isLoading: boolean) =>
                 this.setState({ isLoading })

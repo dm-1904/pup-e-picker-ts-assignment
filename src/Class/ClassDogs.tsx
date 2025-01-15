@@ -4,10 +4,10 @@ import { Dog } from "../types";
 import { Requests } from "../api";
 
 interface DogProps {
+  allDogs: Dog[];
+  displayAll: boolean;
   displayFavorites: boolean;
   displayUnfavorites: boolean;
-  displayAll: boolean;
-  allDogs: Dog[];
   fetchAndSetAllDogs: () => void;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
@@ -41,6 +41,7 @@ export class ClassDogs extends Component<DogProps> {
   };
 
   render() {
+    console.log(this.props);
     return (
       <>
         <section className="dog-section">

@@ -1,23 +1,19 @@
 import { Component } from "react";
 import { Requests } from "../api";
-import { Dog } from "../types";
+import { Dog, TActiveTab } from "../types";
 import { ClassSection } from "./ClassSection";
 
 interface State {
   allDogs: Dog[];
   favoritedDogs: Dog[];
-  isFavClicked: boolean;
-  isUnfavClicked: boolean;
-  isCreateClicked: boolean;
+  activeTab: TActiveTab;
 }
 
 export class ClassApp extends Component<Record<string, never>, State> {
   state: State = {
     allDogs: [],
     favoritedDogs: [],
-    isFavClicked: false,
-    isUnfavClicked: false,
-    isCreateClicked: false,
+    activeTab: "none",
   };
 
   componentDidMount() {
@@ -36,43 +32,14 @@ export class ClassApp extends Component<Record<string, never>, State> {
     this.setState({ favoritedDogs });
   };
 
-  handleFavClick = () => {
-    this.setState((prevState) => ({
-      isFavClicked: !prevState.isFavClicked,
-      isUnfavClicked: false,
-      isCreateClicked: false,
-    }));
-  };
-
-  handleUnfavClick = () => {
-    this.setState((prevState) => ({
-      isUnfavClicked: !prevState.isUnfavClicked,
-      isFavClicked: false,
-      isCreateClicked: false,
-    }));
-  };
-
-  handleCreateClick = () => {
-    this.setState((prevState) => ({
-      isCreateClicked: !prevState.isCreateClicked,
-      isFavClicked: false,
-      isUnfavClicked: false,
+  handleTabChange = (tabName: TActiveTab) => {
+    this.setState(() => ({
+      activeTab: tabName,
     }));
   };
 
   render() {
-    const {
-      allDogs,
-      favoritedDogs,
-      isFavClicked,
-      isUnfavClicked,
-      isCreateClicked,
-    } = this.state;
-    const displayFavorites =
-      isFavClicked && !isUnfavClicked && !isCreateClicked;
-    const displayUnfavorites =
-      isUnfavClicked && !isFavClicked && !isCreateClicked;
-    const displayAll = !isFavClicked && !isUnfavClicked && !isCreateClicked;
+    const { allDogs, favoritedDogs, activeTab } = this.state;
     const favoritedCount = favoritedDogs.length;
     const unfavoritedCount = allDogs.length - favoritedCount;
 
@@ -85,16 +52,11 @@ export class ClassApp extends Component<Record<string, never>, State> {
           <h1>pup-e-picker (Class)</h1>
         </header>
         <ClassSection
-          handleFavClick={this.handleFavClick}
-          handleUnfavClick={this.handleUnfavClick}
-          handleCreateClick={this.handleCreateClick}
-          displayFavorites={displayFavorites}
-          displayUnfavorites={displayUnfavorites}
+          handleTabChange={this.handleTabChange}
+          activeTab={activeTab}
           favoritedCount={favoritedCount}
           unfavoritedCount={unfavoritedCount}
           fetchAndSetAllDogs={this.fetchAndSetAllDogs}
-          isCreateClicked={isCreateClicked}
-          displayAll={displayAll}
           allDogs={allDogs}
         />
       </div>

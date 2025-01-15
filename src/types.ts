@@ -7,3 +7,5 @@ export type Dog = {
   description: string;
   isFavorite: boolean;
 };
+
+export type TActiveTab = "fav" | "unfav" | "create" | "none";

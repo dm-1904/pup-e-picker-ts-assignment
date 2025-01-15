@@ -2,8 +2,10 @@ import { Component } from "react";
 import { dogPictures } from "../dog-pictures";
 import { Requests } from "../api";
 import toast from "react-hot-toast";
+import { TActiveTab } from "../types";
 
 interface CreateDogProps {
+  handleTabChange: (tabName: TActiveTab) => void;
   isLoading: boolean;
   fetchAndSetAllDogs: () => void;
   setIsLoading: (isLoading: boolean) => void;
@@ -40,6 +42,7 @@ export class ClassCreateDogForm extends Component<CreateDogProps, State> {
           picture: Object.values(dogPictures)[0],
         });
       })
+      .then(() => this.props.handleTabChange("none"))
       .then(() => toast.success(`✅ ${this.state.name} has been added! 🐾`))
       .finally(() => this.props.setIsLoading(false));
   };
