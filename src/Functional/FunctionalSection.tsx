@@ -2,35 +2,28 @@
 import { Link } from "react-router-dom";
 import { FunctionalCreateDogForm } from "./FunctionalCreateDogForm";
 import { FunctionalDogs } from "./FunctionalDogs";
-import { Dog } from "../types";
+import { Dog, TActiveTab } from "../types";
 import { useState } from "react";
 
 export const FunctionalSection = ({
-  handleFavClick,
-  handleUnfavClick,
-  displayFavorites,
-  displayUnfavorites,
+  handleTabChange,
+  activeTab,
   favoritedCount,
   unfavoritedCount,
-  handleCreateClick,
   fetchAndSetAllDogs,
-  isCreateClicked,
-  displayAll,
   allDogs,
 }: {
-  handleFavClick: () => void;
-  handleUnfavClick: () => void;
-  displayFavorites: boolean;
-  displayUnfavorites: boolean;
+  handleTabChange: (tabName: TActiveTab) => void;
+  activeTab: TActiveTab;
   favoritedCount: number;
   unfavoritedCount: number;
-  handleCreateClick: () => void;
-  fetchAndSetAllDogs: () => Promise<void>;
-  isCreateClicked: boolean;
-  displayAll: boolean;
+  fetchAndSetAllDogs: () => void;
   allDogs: Dog[];
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const displayFavorites = activeTab === "fav";
+  const displayUnfavorites = activeTab === "unfav";
+  const displayAll = activeTab === "none";
 
   return (
     <section id="main-section">
@@ -43,29 +36,24 @@ export const FunctionalSection = ({
           Change to Class
         </Link>
         <div className="selectors">
-          {/* This should display the favorited count */}
           <div
             className={`selector ${displayFavorites ? "active" : ""}`}
-            onClick={() => {
-              handleFavClick();
-            }}
+            onClick={() => handleTabChange(displayFavorites ? "none" : "fav")}
           >
             favorited ( {favoritedCount} )
           </div>
-
-          {/* This should display the unfavorited count */}
           <div
             className={`selector ${displayUnfavorites ? "active" : ""}`}
-            onClick={() => {
-              handleUnfavClick();
-            }}
+            onClick={() =>
+              handleTabChange(displayUnfavorites ? "none" : "unfav")
+            }
           >
             unfavorited ( {unfavoritedCount} )
           </div>
           <div
-            className={`selector ${isCreateClicked ? "active" : ""}`}
+            className={`selector ${activeTab === "create" ? "active" : ""}`}
             onClick={() => {
-              handleCreateClick();
+              handleTabChange(activeTab === "create" ? "none" : "create");
             }}
           >
             create dog
@@ -85,8 +73,9 @@ export const FunctionalSection = ({
           />
         )}
 
-        {isCreateClicked && (
+        {activeTab === "create" && (
           <FunctionalCreateDogForm
+            handleTabChange={handleTabChange}
             fetchAndSetAllDogs={fetchAndSetAllDogs}
             isLoading={isLoading}
             setIsLoading={setIsLoading}

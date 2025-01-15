@@ -3,19 +3,19 @@ import { Dog } from "../types";
 import { Requests } from "../api";
 
 export const FunctionalDogs = ({
-  displayFavorites,
-  displayUnfavorites,
-  displayAll,
   allDogs,
   fetchAndSetAllDogs,
+  displayAll,
+  displayFavorites,
+  displayUnfavorites,
   isLoading,
   setIsLoading,
 }: {
+  allDogs: Dog[];
+  fetchAndSetAllDogs: () => void;
+  displayAll: boolean;
   displayFavorites: boolean;
   displayUnfavorites: boolean;
-  displayAll: boolean;
-  allDogs: Dog[];
-  fetchAndSetAllDogs: () => Promise<void>;
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
 }) => {

@@ -2,15 +2,18 @@ import { useState } from "react";
 import { Requests } from "../api";
 import { dogPictures } from "../dog-pictures";
 import { toast } from "react-hot-toast";
+import { TActiveTab } from "../types";
 
 export const FunctionalCreateDogForm = ({
+  handleTabChange,
+  setIsLoading,
   fetchAndSetAllDogs,
   isLoading,
-  setIsLoading,
 }: {
-  fetchAndSetAllDogs: () => Promise<void>;
-  isLoading: boolean;
+  handleTabChange: (tabName: TActiveTab) => void;
   setIsLoading: (isLoading: boolean) => void;
+  fetchAndSetAllDogs: () => void;
+  isLoading: boolean;
 }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -32,6 +35,7 @@ export const FunctionalCreateDogForm = ({
         setDescription("");
         setPicture(Object.values(dogPictures)[0]);
       })
+      .then(() => handleTabChange("none"))
       .then(() => toast.success(`✅ ${name} has been added! 🐾`))
       .finally(() => setIsLoading(false));
   };
